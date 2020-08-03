@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+</head>
+<body style="margin: 0px" id="bdy">
+<style type="text/css">
+	 video::-webkit-media-controls-pausebutton, video::-webkit-media-controls-timeline {
+    display: none;
+}
+
+ video::-webkit-media
+ {
+ 	pointer-events: none;
+ }
+
+
+</style>
+
+
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-analytics.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-database.js"></script>
+
+<script>
+  // Your web app's Firebase configuration
+  var prevHostUrl=""
+  var firebaseConfig = {
+    apiKey: "AIzaSyBYLd1iPGvMjKEV8yk7DEh8zjA0uIy85Hw",
+    authDomain: "movie-night-30df1.firebaseapp.com",
+    databaseURL: "https://movie-night-30df1.firebaseio.com",
+    projectId: "movie-night-30df1",
+    storageBucket: "movie-night-30df1.appspot.com",
+    messagingSenderId: "65180099177",
+    appId: "1:65180099177:web:d87d6d42dbf9a7ff8f38f8",
+    measurementId: "G-H62S5XWET5"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+
+
+  var starCountRef = firebase.database().ref('data/');
+starCountRef.on('value', function(snapshot) {
+  var hostTime=snapshot.val().timestamp;
+  var hostUrl=snapshot.val().url;
+  var vid = document.getElementById("bdy"); 
+
+  if(hostUrl!=null && hostUrl!=prevHostUrl)
+  {
+     vid.innerHTML="<video width='100%' id='vid' height='100%' controls><source src="+hostUrl+" type='video/mp4' />Your browser does not support the video tag.</video> "
+
+      prevHostUrl=hostUrl
+   }
+
+   
+   vid = document.getElementById("vid"); 
+
+  if(Math.abs(hostTime-vid.currentTime)>1)
+  {
+    vid.currentTime=hostTime
+  }
+  
+
+});
+
+
+</script>
+
+</body>
+</html>

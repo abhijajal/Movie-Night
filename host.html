@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+</head>
+<body id="bdy">
+<form method="get">
+	Enter the link:
+	<input type="text" name="link"/>
+	<input type="submit" value="Submit">
+</form>
+
+
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-analytics.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-database.js"></script>
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyBYLd1iPGvMjKEV8yk7DEh8zjA0uIy85Hw",
+    authDomain: "movie-night-30df1.firebaseapp.com",
+    databaseURL: "https://movie-night-30df1.firebaseio.com",
+    projectId: "movie-night-30df1",
+    storageBucket: "movie-night-30df1.appspot.com",
+    messagingSenderId: "65180099177",
+    appId: "1:65180099177:web:d87d6d42dbf9a7ff8f38f8",
+    measurementId: "G-H62S5XWET5"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+
+  var database = firebase.database().ref();
+  var vid = document.getElementById("bdy");
+  let params = new URLSearchParams(location.search);
+  var link=params.get('link')
+  console.log(link)
+  console.log(vid)
+  if(link!=null)
+  {
+  	 vid.innerHTML="<video width='100%' id='vid' height='100%' controls><source src="+link+" type='video/mp4' />Your browser does not support the video tag.</video> "
+
+  firebase.database().ref("data/").update({url:link});
+
+  }
+ 
+     vid = document.getElementById("vid");
+
+
+  var timerID = setInterval(function() {
+  	if(vid!=null)
+  	{
+  	  firebase.database().ref("data/").update({timestamp:vid.currentTime});
+  	}
+    // your code goes here...
+}, 1000); 
+
+
+</script>
+
+</body>
+</html>
