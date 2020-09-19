@@ -1,6 +1,6 @@
 # Movie Night
- It a website to watch movies/videos together. Where the host have to input a directly downloadable video link and viewers just have to play the video which will automatically snyc with the video played by host.
- Website is currenly hosted at: https://movie-night-30df1.web.app/
- 
+ This a chrome extension version of Movie Night. It syncs almost any video from a website. <br />
+ It can be loaded into chrome, by turning on the chrome extension develeoper mode, and then clicking on load unpacked.
+
  For Snapshots visit : https://abhijajal.github.io/projectDetails.html?projectId=-16
  
