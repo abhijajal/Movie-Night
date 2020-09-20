@@ -2,75 +2,63 @@
 <html>
 <head>
   <title></title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 </head>
+
 <body style="margin: 0px" id="bdy">
 <style type="text/css">
-	 video::-webkit-media-controls-pausebutton, video::-webkit-media-controls-timeline {
+   video::-webkit-media-controls-pausebutton, video::-webkit-media-controls-timeline {
     display: none;
 }
 
  video::-webkit-media
  {
- 	pointer-events: none;
+  pointer-events: none;
  }
 
 
 </style>
+<script type="text/javascript">
+    var prevHostUrl=""
+    var currentHostUrl=""
+    var cTime=0;
+    var timerID = setInterval(function() {
+      $.ajax({
+      url:"getTimeUrl.php",
+      method:"GET",
+      success:function(res)
+      {
+         console.log(res);
+         data=res.split(",");
+         currentHostUrl=data[1];
+         cTime=data[0];
+         if(currentHostUrl!=prevHostUrl && currentHostUrl!=null && currentHostUrl!="")
+         {
+         vid = document.getElementById("bdy");
+
+          vid.innerHTML="<video width='100%' id='vid' height='100%' controls><source src="+currentHostUrl+" type='video/mp4' />Your browser does not support the video tag.</video> "
+         }
+         
+         vid = document.getElementById("vid");
+           if(Math.abs(cTime-vid.currentTime)>1)
+          {
+            vid.currentTime=cTime
+            }
+
+            prevHostUrl=currentHostUrl
 
 
-<!-- The core Firebase JS SDK is always required and must be listed first -->
-<script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-app.js"></script>
+      }
 
-<!-- TODO: Add SDKs for Firebase products that you want to use
-     https://firebase.google.com/docs/web/setup#available-libraries -->
-<script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-analytics.js"></script>
-<script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-database.js"></script>
-
-<script>
-  // Your web app's Firebase configuration
-  var prevHostUrl=""
-  var firebaseConfig = {
-    apiKey: "AIzaSyBYLd1iPGvMjKEV8yk7DEh8zjA0uIy85Hw",
-    authDomain: "movie-night-30df1.firebaseapp.com",
-    databaseURL: "https://movie-night-30df1.firebaseio.com",
-    projectId: "movie-night-30df1",
-    storageBucket: "movie-night-30df1.appspot.com",
-    messagingSenderId: "65180099177",
-    appId: "1:65180099177:web:d87d6d42dbf9a7ff8f38f8",
-    measurementId: "G-H62S5XWET5"
-  };
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-  firebase.analytics();
-
-
-  var starCountRef = firebase.database().ref('data/');
-starCountRef.on('value', function(snapshot) {
-  var hostTime=snapshot.val().timestamp;
-  var hostUrl=snapshot.val().url;
-  var vid = document.getElementById("bdy"); 
-
-  if(hostUrl!=null && hostUrl!=prevHostUrl)
-  {
-     vid.innerHTML="<video width='100%' id='vid' height='100%' controls><source src="+hostUrl+" type='video/mp4' />Your browser does not support the video tag.</video> "
-
-      prevHostUrl=hostUrl
-   }
-
-   
-   vid = document.getElementById("vid"); 
-
-  if(Math.abs(hostTime-vid.currentTime)>1)
-  {
-    vid.currentTime=hostTime
-  }
-  
-
-});
+     });
+    // your code goes here...
+}, 1000); 
 
 
 </script>
-
-</body>
+      
+      
+      
+   </body>
 </html>
